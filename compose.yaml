@@ -1,0 +1,15 @@
+services:
+  msb-runner:
+    build: .
+    restart: unless-stopped
+    devices:
+      - /dev/kvm
+    env_file: .env
+    volumes:
+      # Image cache and sandbox state; keeps the ~1.8 GB runner image across restarts.
+      - msb-data:/root/.microsandbox
+      - ./secrets:/secrets:ro
+    stop_grace_period: 30s
+
+volumes:
+  msb-data:
